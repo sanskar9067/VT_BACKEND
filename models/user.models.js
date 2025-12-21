@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true,
-        unique: true,
         trim: true
     },
     email: {
@@ -22,7 +21,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        unique: true,
         trim: true
     },
     avatar: {
@@ -37,6 +35,12 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+    watchHistory: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Video'
+        }
+    ],
     refreshToken: {
         type: String,
         required: true,
