@@ -126,3 +126,40 @@ export const loginUser = async(req, res) => {
     }
 }
 
+export const logoutUser = async(req, res) => {
+    try {
+        console.log(req.cookies);
+        const accessToken = req.cookies.accessToken;
+        if(!accessToken) {
+            return res.status(400).json({
+                success: false,
+                message: "Access Token not found"
+            });
+        }
+
+        const user = await User.findOne({accessToken});
+        if(!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        user.refreshToken = null;
+        await user.save();
+
+        res.clearCookie('refreshToken');
+        res.clearCookie('accessToken');
+
+        return res.status(200).json({
+            success: true,
+            message: "Logout Successful"
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server error"
+        });
+    }
+}
