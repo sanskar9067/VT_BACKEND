@@ -31,7 +31,6 @@ const userSchema = new mongoose.Schema({
     },
     coverImage: {
         type: String,
-        required: true,
         unique: true,
         trim: true
     },
@@ -43,10 +42,8 @@ const userSchema = new mongoose.Schema({
     ],
     refreshToken: {
         type: String,
-        required: true,
         unique: true,
-        trim: true,
-        default: ''
+        trim: true
     }
 }, { timestamps: true });
 
