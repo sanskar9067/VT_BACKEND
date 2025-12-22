@@ -3,6 +3,7 @@ import connectDB from './utils/connectDB.js';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes.js';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 // Load environment variables
 dotenv.config();
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static('uploads'));
+app.use(cookieParser());
 
 //allow to send files
 app.use(express.static('uploads'));

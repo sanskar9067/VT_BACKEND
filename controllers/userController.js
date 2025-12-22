@@ -128,16 +128,7 @@ export const loginUser = async(req, res) => {
 
 export const logoutUser = async(req, res) => {
     try {
-        console.log(req.cookies);
-        const accessToken = req.cookies.accessToken;
-        if(!accessToken) {
-            return res.status(400).json({
-                success: false,
-                message: "Access Token not found"
-            });
-        }
-
-        const user = await User.findOne({accessToken});
+        const user = await User.findById(req.user._id);
         if(!user) {
             return res.status(404).json({
                 success: false,
