@@ -12,7 +12,7 @@ const uploadToCloudinary = async (file_path) => {
             console.error("Error uploading to Cloudinary:", error);
             return null;
         });
-        console.log("Uploaded to Cloudinary:", result);
+        //console.log("Uploaded to Cloudinary:", result);
         return result;
     } catch (error) {
         console.error("Error uploading to Cloudinary:", error);

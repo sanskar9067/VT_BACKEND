@@ -2,12 +2,22 @@ import express from 'express';
 import connectDB from './utils/connectDB.js';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes.js';
+import cors from 'cors';
 
 // Load environment variables
 dotenv.config();
 
 // Create express app 
 const app = express();
+
+//allow to send json and urlencoded data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.static('uploads'));
+
+//allow to send files
+app.use(express.static('uploads'));
 
 // Connect to database and start the server
 connectDB();
