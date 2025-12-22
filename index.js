@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import videoRoutes from './routes/video.routes.js';
 
 // Load environment variables
 dotenv.config();
@@ -26,6 +27,7 @@ connectDB();
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/videos', videoRoutes);
 
 // Start the server
 app.listen(3000, () => {

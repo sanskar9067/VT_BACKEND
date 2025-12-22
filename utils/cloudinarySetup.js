@@ -7,7 +7,9 @@ const uploadToCloudinary = async (file_path) => {
             api_key: process.env.CLOUDINARY_API_KEY,
             api_secret: process.env.CLOUDINARY_API_SECRET
           });
-        const result = await cloudinary.uploader.upload(file_path)
+        const result = await cloudinary.uploader.upload(file_path, {
+            resource_type: "auto"
+        })
         .catch((error) => {
             console.error("Error uploading to Cloudinary:", error);
             return null;
