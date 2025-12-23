@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import uploadToCloudinary from '../utils/cloudinarySetup.js';
 import fs from 'fs';
+import Subscription from '../models/subscription.model.js';
 
 export const registerUser = async (req, res) => {
     try {
@@ -145,6 +146,49 @@ export const logoutUser = async(req, res) => {
         return res.status(200).json({
             success: true,
             message: "Logout Successful"
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server error"
+        });
+    }
+}
+
+export const subscribe = async(req, res) => {
+    try {
+        const userToSubscribe = await User.findById(req.params.id);
+        const currentUser = await User.findById(req.user._id);
+
+        if(!userToSubscribe) {
+            return res.status(404).json({
+                success: false,
+                message: "User to subscribe not found"
+            });
+        }
+        const isAlreadySubscribed = await Subscription.findOne({
+            subscriber: currentUser._id,
+            subscribedTo: userToSubscribe._id
+        });
+        
+        if(isAlreadySubscribed) {
+            return res.status(400).json({
+                success: false,
+                message: "Already Subscribed to this user"
+            });
+        }
+
+        const newSubscription = new Subscription({
+            subscriber: currentUser._id,
+            subscribedTo: userToSubscribe._id
+        });
+
+        await newSubscription.save();
+
+        return res.status(200).json({
+            success: true,
+            message: `Subscribed to ${userToSubscribe.username} successfully`
         });
     } catch (error) {
         console.log(error);

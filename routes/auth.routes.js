@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { loginUser, logoutUser, registerUser } from '../controllers/userController.js';
+import { loginUser, logoutUser, registerUser, subscribe } from '../controllers/userController.js';
 import upload from '../middlewares/multer.middleware.js';
 import verifyAuth from '../middlewares/auth.middleware.js';
 
@@ -12,5 +12,6 @@ router.post('/register', upload.fields(
 
 router.post('/login', loginUser);
 router.get('/logout', verifyAuth, logoutUser);
+router.post("/subscribe/:id", verifyAuth, subscribe);
 
 export default router;
