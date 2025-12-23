@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.routes.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import videoRoutes from './routes/video.routes.js';
+import tweetRoutes from './routes/tweet.routes.js';
 
 // Load environment variables
 dotenv.config();
@@ -28,6 +29,7 @@ connectDB();
 // Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/videos', videoRoutes);
+app.use('/api/v1/tweets', tweetRoutes);
 
 // Start the server
 app.listen(3000, () => {
