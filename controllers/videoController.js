@@ -1,6 +1,7 @@
 import fs from 'fs';
 import uploadToCloudinary from '../utils/cloudinarySetup.js';
 import Video from '../models/video.models.js';
+import Playlist from '../models/playlist.model.js';
 
 export const uploadVideo = async (req, res) => {
     try {
@@ -46,6 +47,48 @@ export const uploadVideo = async (req, res) => {
         });
 
     } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server error"
+        });
+    }
+}
+
+export const addToPlaylist = async (req, res) => {
+    try {
+        const { name, description } = req.body;
+        const playlist = await Playlist.findOne({createdBy: req.user._id});
+        if(!playlist) {
+            if(!name) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Playlist name is required to create a new playlist"
+                });
+            }
+            const newPlaylist = new Playlist({
+                name,
+                description,
+                createdBy: req.user._id,
+                videos: [req.params.videoId]
+            });
+            await newPlaylist.save();
+            return res.status(201).json({
+                success: true,
+                message: "Playlist created successfully",
+                playlist: newPlaylist
+            });
+        }else{
+            playlist.videos.push(req.params.videoId);
+            await playlist.save();
+            return res.status(200).json({
+                success: true,
+                message: "Video added to playlist",
+                playlist
+            });
+        }
+    }
+    catch (error) {
         console.log(error);
         return res.status(500).json({
             success: false,
