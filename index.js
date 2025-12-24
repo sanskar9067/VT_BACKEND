@@ -32,6 +32,10 @@ app.use('/api/v1/videos', videoRoutes);
 app.use('/api/v1/tweets', tweetRoutes);
 
 // Start the server
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
+
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
