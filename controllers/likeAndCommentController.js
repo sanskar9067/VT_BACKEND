@@ -1,3 +1,6 @@
+import Like from '../models/likes.model.js';
+import Comment from '../models/comments.model.js';
+
 export const likeVideo = async (req, res) => {
     try {
         const { videoId } = req.params;
