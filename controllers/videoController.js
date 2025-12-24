@@ -96,3 +96,51 @@ export const addToPlaylist = async (req, res) => {
         });
     }
 }
+
+export const getAllVideos = async (req, res) => {
+    try {
+        const videos = await Video.find().sort({ createdAt: -1 });
+        return res.status(200).json({
+            success: true,
+            videos
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server error"
+        });
+    }
+}
+
+export const getVideosByUser = async (req, res) => {
+    try {
+        const videos = await Video.find({ owner: req.params.userId }).sort({ createdAt: -1 });
+        return res.status(200).json({
+            success: true,
+            videos
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server error"
+        });
+    }
+}
+
+export const getVideoOfTheUser = async (req, res) => {
+    try {
+        const videos = await Video.find({ owner: req.user._id }).sort({ createdAt: -1 });
+        return res.status(200).json({
+            success: true,
+            videos
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server error"
+        });
+    }
+}
