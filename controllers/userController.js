@@ -115,7 +115,7 @@ export const loginUser = async(req, res) => {
         .json({
             success: true,
             message: "Login Successful",
-            user: user.select('-password'),
+            user: user,
             accessToken,
             refreshToken
         });
